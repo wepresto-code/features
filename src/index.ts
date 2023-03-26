@@ -1,12 +1,24 @@
 import bodyParser from "body-parser";
 import express from "express";
 import pg from "pg";
+import cors from 'cors';
+
+
 
 // Connect to the database using the DATABASE_URL environment
 //   variable injected by Railway
 const pool = new pg.Pool();
 
 const app = express();
+
+// Allow all CORS requests
+app.use(cors());
+
+// Or, allow specific origins
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://wepresto.com']
+}));
+
 const port = process.env.PORT || 3333;
 
 app.use(bodyParser.json());
@@ -143,5 +155,5 @@ app.post('/categories', async (req, res) => {
   });
 
 app.listen(port, () => {
-  console.log(`Features listening at http://localhost:${port}`);
+  console.log(`Features listening on port ${port}`);
 });
