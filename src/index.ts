@@ -75,11 +75,11 @@ app.post("/tasks", async (req, res) => {
 
 // Actualizar una tarea
 app.put("/tasks/:id", async (req, res) => {
-  const { name, description, author, ranking } = req.body;
+  const { name, description, author, ranking, category_id } = req.body;
   try {
     const result = await pool.query(
-      "UPDATE tasks SET name = $1, description = $2, author = $3, ranking = $4 WHERE id = $5 RETURNING *",
-      [name, description, author, ranking, req.params.id]
+      "UPDATE tasks SET name = $1, description = $2, author = $3, ranking = $4, category_id = $5 WHERE id = $5 RETURNING *",
+      [name, description, author, ranking, category_id, req.params.id]
     );
     if (result.rows.length === 0) {
       res.status(404).json({ error: "Tarea no encontrada" });
